@@ -10,8 +10,7 @@ export async function POST({
 
   // 新增的資料
   const newData = {
-    id: "1",
-    name: "$[memberName]",
+    name: `${memberName}`,
   };
 
   // 插入新数据
@@ -42,11 +41,11 @@ export async function POST({
     data: data,
   });
 }
-//  export async function GET() {
-//   const supabase = createClient();
-//   const { data: t } = await supabase.from("test").select();
-//   if (!t) {
-//     return Response.json({ code: 401, msg: "", data: "" });
-//   }
-//   return Response.json({ code: 200, msg: "", data: { data: t } });
-//  }
+export async function GET() {
+  const supabase = createClient();
+  const { data: t } = await supabase.from("test").select();
+  if (!t) {
+    return Response.json({ code: 401, msg: "", data: "" });
+  }
+  return Response.json({ code: 200, msg: "", data: { data: t } });
+}
