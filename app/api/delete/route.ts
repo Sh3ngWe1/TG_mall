@@ -1,34 +1,28 @@
 import { createClient } from "@/utils/supabase/server";
-import { Response } from "express";
 
-export async function DELETE(): Promise<Response> {
-  const supabase = createClient();
-
+export async function deleteTestData(
+  req: { params: { id: any } },
+  res: {
+    status: (arg0: number) => {
+      (): any;
+      new (): any;
+      json: { (arg0: { message: string }): any; new (): any };
+    };
+  }
+) {
   try {
-    // 在 test 表中删除 id 为 1 的记录
-    const { error } = await supabase.from("test").delete().eq("id", 1);
+    const supabase = createClient();
+    const { id } = req.params; // 假设从请求参数中获取要删除的数据的 id
+
+    const { error } = await supabase.from("test").delete().eq("id", id);
+
     if (error) {
-      // 如果发生错误，则返回错误响应
-      return Response.json({
-        code: 500,
-        msg: "Error deleting data",
-        data: null,
-      });
+      return res.status(500).json({ message: "Error deleting test data" });
     }
 
-    // 成功删除记录，返回成功响应
-    return Response.json({
-      code: 200,
-      msg: "Data deleted successfully",
-      data: null,
-    });
+    return res.status(200).json({ message: "Test data deleted successfully" });
   } catch (error) {
-    // 捕获并处理任何异常
     console.error("Error:", error);
-    return Response.json({
-      code: 500,
-      msg: "Internal server error",
-      data: null,
-    });
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
