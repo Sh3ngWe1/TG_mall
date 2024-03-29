@@ -4,17 +4,13 @@ import { redirect } from "next/navigation";
 export async function DELETE() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from("test").delete().match({ id: 1 });
+  const { data: t, error } = await supabase
+    .from("test")
+    .delete()
+    .match({ id: 1 });
 
-  if (error) {
-    return {
-      status: 500,
-      body: { error: "Error deleting data" }
-    }
+  if (!t) {
+    return Response.json({ code: 401, msg: "", data: "" });
   }
-
-  return {
-    status: 200,
-    body: { data }
-  }
+  return Response.json({ code: 200, msg: "", data: { data: t } });
 }
