@@ -1,20 +1,21 @@
 import { createClient } from "@/utils/supabase/server";
-export default async function handler(req: any, res: any) {
+
+export default async function deleteData(req: any, res: any) {
   if (req.method === "POST") {
     const supabase = createClient();
 
-    // 刪除ID為1的資料
+    // 删除 ID 为 1 的数据
     const { data, error } = await supabase.from("test").delete().eq("id", 1);
 
     if (error) {
-      // 如果出現錯誤，回傳錯誤訊息
+      // 如果出现错误，返回错误消息
       res.status(500).json({
         code: 500,
         msg: "Error deleting data from the database",
         data: null,
       });
     } else {
-      // 如果成功刪除資料，回傳成功訊息和刪除的資料
+      // 如果成功删除数据，返回成功消息和删除的数据
       res.status(200).json({
         code: 200,
         msg: "Data deleted successfully",
@@ -22,7 +23,7 @@ export default async function handler(req: any, res: any) {
       });
     }
   } else {
-    // 如果收到的是非POST請求，回傳405錯誤
+    // 如果收到的不是 POST 请求，返回 405 错误
     res.status(405).end();
   }
 }
