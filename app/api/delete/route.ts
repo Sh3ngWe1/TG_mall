@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 
-export async function deleteTestData(
+export default async function del(
   req: { params: { id: any } },
   res: {
     status: (arg0: number) => {
@@ -14,7 +14,7 @@ export async function deleteTestData(
     const supabase = createClient();
     const { id } = req.params; // 假设从请求参数中获取要删除的数据的 id
 
-    const { error } = await supabase.from("test").delete().eq("id", id);
+    const { error } = await supabase.from("test").delete().eq("id", 1);
 
     if (error) {
       return res.status(500).json({ message: "Error deleting test data" });
