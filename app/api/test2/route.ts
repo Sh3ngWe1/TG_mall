@@ -9,12 +9,12 @@ export async function DELETE() {
   if (error) {
     return {
       status: 500,
-      body: { error: "Error deleting data" },
-    };
+      body: { error: "Error deleting data" }
+    }
   }
 
   return {
     status: 200,
-    body: { data },
-  };
+    body: { data }
+  }
 }
