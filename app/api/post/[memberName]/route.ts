@@ -1,13 +1,17 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export async function POST() {
+export async function POST({
+  params: { memberName },
+}: {
+  params: { memberName: string };
+}) {
   const supabase = createClient();
 
   // 新增的資料
   const newData = {
-    // 根据你的表结构，设置相应的字段和值
-    name: "John",
+    id: "1",
+    name: "$[memberName]",
   };
 
   // 插入新数据
@@ -38,11 +42,11 @@ export async function POST() {
     data: data,
   });
 }
-export async function GET() {
-  const supabase = createClient();
-  const { data: t } = await supabase.from("test").select();
-  if (!t) {
-    return Response.json({ code: 401, msg: "", data: "" });
-  }
-  return Response.json({ code: 200, msg: "", data: { data: t } });
-}
+//  export async function GET() {
+//   const supabase = createClient();
+//   const { data: t } = await supabase.from("test").select();
+//   if (!t) {
+//     return Response.json({ code: 401, msg: "", data: "" });
+//   }
+//   return Response.json({ code: 200, msg: "", data: { data: t } });
+//  }
