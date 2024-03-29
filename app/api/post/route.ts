@@ -7,7 +7,6 @@ export async function POST() {
   // 新增的資料
   const newData = {
     // 根据你的表结构，设置相应的字段和值
-    // 例如，假设你的表中有名为 "name" 和 "age" 的字段
     name: "John",
   };
 
@@ -38,4 +37,12 @@ export async function POST() {
     msg: "Data inserted successfully",
     data: data,
   });
+}
+export async function GET() {
+  const supabase = createClient();
+  const { data: t } = await supabase.from("test").select();
+  if (!t) {
+    return Response.json({ code: 401, msg: "", data: "" });
+  }
+  return Response.json({ code: 200, msg: "", data: { data: t } });
 }
