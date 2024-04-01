@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export async function DELETE() {
+export async function PUT() {
   const supabase = createClient();
 
   const { data: t, error } = await supabase
