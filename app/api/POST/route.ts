@@ -16,11 +16,16 @@ export async function POST() {
   const supabase = createClient();
   const { data: t, error } = await supabase.from("test").insert({
     id: "2",
-    //created_at: "",
+    created_at: "",
+    name: "John",
   });
   if (error) {
     throw error;
   }
-  // console.log('Inserted data:', t);
+  if (!t) {
+    return Response.json({ code: 401, msg: "", data: "" });
+  }
   return Response.json({ code: 200, msg: "", data: { data: t } });
+  // console.log('Inserted data:', t);
+  //return Response.json({ code: 200, msg: "", data: { data: t } });
 }
