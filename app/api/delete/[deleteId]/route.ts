@@ -19,7 +19,14 @@ import { NextRequest } from "next/server";
 //   }
 //   return Response.json({ code: 200, msg: "", data: { data: t } });
 // }
-export async function GET(deleteId: Number) {
+// console.log(typeof 123);
+
+export async function GET(
+  req: NextRequest,
+  { params: { deleteId } }: { params: { deleteId: string } }
+) {
+  console.log(typeof deleteId);
+  // let id = Number(deleteId);
   const supabase = createClient();
   const { data, error } = await supabase
     .from("test")
