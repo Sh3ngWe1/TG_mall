@@ -2,40 +2,75 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
-// export async function DELETE(
-//   req: NextRequest,
-//   { params: { deleteId } }: { params: { deleteId: string } }
-// ) {
-//   // const data = await res.json()
-//   const supabase = createClient();
-//   const { data: t } = await supabase
-//     .from("test")
-//     .select()
-//     .eq("id", deleteId)
-//     .single();
-
-//   if (!t) {
-//     return Response.json({ code: 401, msg: "", data: "" });
-//   }
-//   return Response.json({ code: 200, msg: "", data: { data: t } });
-// }
-// console.log(typeof 123);
-
+//先抓status的資料, 在進行判斷
 export async function GET(
   req: NextRequest,
   { params: { deleteId } }: { params: { deleteId: string } }
 ) {
-  console.log(typeof deleteId);
-  // let id = Number(deleteId);
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { data: statusData, error: statusError } = await supabase
+    .from("test")
+    .select("status")
+    .eq("id", deleteId)
+    .single();
+
+  if (statusError) {
+    return Response.json({ code: 401, msg: statusError.message, data: "" });
+  }
+  //return Response.json({ code: 200, msg: "", data: { statusData } });
+
+  //若status===0, 則不允許刪除。
+  if (statusData.status === 0) {
+    return new Response(
+      JSON.stringify({ code: 403, msg: "不允許刪除此筆資料", data: "" }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+  //若status===1, 則可以刪除資料
+  const { data: deleteData, error: deleteError } = await supabase
     .from("test")
     .delete()
     .eq("id", deleteId)
     .single();
 
-  if (error) {
-    return Response.json({ code: 401, msg: error.message, data: "" });
+  if (deleteError) {
+    return new Response(
+      JSON.stringify({ code: 401, msg: deleteError.message, data: "" }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
-  return Response.json({ code: 200, msg: "", data: { data } });
+
+  return new Response(
+    JSON.stringify({ code: 200, msg: "資料已刪除", data: { deleteData } }),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
+
+// export async function GET(
+//   req: NextRequest,
+//   { params: { deleteId } }: { params: { deleteId: string } }
+// ) {
+//   const supabase = createClient();
+//   const { data, error } = await supabase
+//     .from("test")
+//     .delete()
+//     .eq("id", deleteId)
+//     .single();
+
+//   if (error) {
+//     return Response.json({ code: 401, msg: error.message, data: "" });
+//   }
+//   return Response.json({ code: 200, msg: "", data: { data } });
+// }
