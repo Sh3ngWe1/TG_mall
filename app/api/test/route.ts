@@ -10,7 +10,7 @@ export async function GET() {
   // })
   // const data = await res.json()
   const supabase = createClient();
-  const { data: t } = await supabase.from("test").select();
+  const { data: t } = await supabase.from("test").select().eq("status", 1);
   if (!t) {
     return Response.json({ code: 401, msg: "", data: "" });
   }

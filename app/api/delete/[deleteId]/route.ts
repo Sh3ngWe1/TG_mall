@@ -31,9 +31,14 @@ export async function GET(
     );
   }
   //若status===1, 則可以刪除資料
+  // const { data: deleteData, error: deleteError } = await supabase
+  //   .from("test")
+  //   .delete()
+  //   .eq("id", deleteId)
+  //   .single();
   const { data: deleteData, error: deleteError } = await supabase
     .from("test")
-    .delete()
+    .update({ status: 0 })
     .eq("id", deleteId)
     .single();
 
