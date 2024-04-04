@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+//import { TableName } from "@/src/types";
 
 export async function GET() {
   // const res = await fetch('https://data.mongodb-api.com/...', {
