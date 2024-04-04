@@ -6,21 +6,11 @@ import { NextRequest } from "next/server";
 //Show出status===1的user資料
 export async function GET() {
   const supabase = createClient();
-  const { data: statusData, error: statusError } = await supabase
-    .from("users")
-    .select("status")
-    .single();
-
-  if (statusError) {
-    return Response.json({ code: 401, msg: statusError.message, data: {} });
+  const { data: t } = await supabase.from("users").select().eq("status", 1);
+  if (!t) {
+    return Response.json({ code: 401, msg: "", data: "" });
   }
-  //若status===0, 則不允許刪除。
-  if (statusData.status === 1) {
-    const { data: deleteData, error: deleteError } = await supabase
-      .from("test")
-      .update({ status: 0 })
-      .single();
-  }
+  return Response.json({ code: 200, msg: "", data: { data: t } });
 }
 
 //create a data
