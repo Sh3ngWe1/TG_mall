@@ -21,7 +21,7 @@ export async function PUT(
   const name = "Tommy";
   const { data, error } = await supabase
     .from("users")
-    .update({ name: name })
+    .update({ user_name: name })
     .eq("id", id);
 
   if (error) {
@@ -61,7 +61,7 @@ export async function DELETE(
   const { data: deleteData, error: deleteError } = await supabase
     .from("users")
     .update({ status: 0 })
-    .eq("id", id)
+    .eq("user_id", id)
     .single();
 
   if (deleteError) {
