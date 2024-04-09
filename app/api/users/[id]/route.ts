@@ -18,10 +18,11 @@ export async function PUT(
   { params: { id } }: { params: { id: string } }
 ) {
   const supabase = createClient();
-  const name = "Tommy";
+  const { name } = await req.json(); //接收name
+
   const { data, error } = await supabase
     .from("users")
-    .update({ user_name: name })
+    .update({ member_name: name })
     .eq("id", id);
 
   if (error) {
@@ -61,7 +62,7 @@ export async function DELETE(
   const { data: deleteData, error: deleteError } = await supabase
     .from("users")
     .update({ status: 0 })
-    .eq("user_id", id)
+    .eq("member_id", id)
     .single();
 
   if (deleteError) {

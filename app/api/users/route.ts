@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const { data, error } = await supabase
     .from("users")
     .insert({
-      user_name: "Tommy",
+      member_name: "Tommy",
     })
     .single();
 
