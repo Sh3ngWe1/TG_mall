@@ -40,7 +40,7 @@ export async function DELETE(
   const { data: statusData, error: statusError } = await supabase
     .from("users")
     .select("status")
-    .eq("member_id", id)
+    .eq("user_id", id)
     .single();
 
   if (statusError) {
