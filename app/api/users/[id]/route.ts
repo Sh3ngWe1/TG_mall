@@ -62,7 +62,7 @@ export async function DELETE(
   const { data: deleteData, error: deleteError } = await supabase
     .from("users")
     .update({ status: 0 })
-    .eq("member_id", id)
+    .eq("user_id", id)
     .single();
 
   if (deleteError) {
