@@ -21,8 +21,8 @@ export async function PUT(
   const name = "Tommy";
   const { data, error } = await supabase
     .from("orders")
-    .update({ user_name: name })
-    .eq("id", id);
+    .update({ member_name: name })
+    .eq("order_id", id);
 
   if (error) {
     return Response.json({ code: 401, msg: error.message, data: "" });
@@ -39,7 +39,7 @@ export async function DELETE(
   const { data: statusData, error: statusError } = await supabase
     .from("orders")
     .select("status")
-    .eq("id", id)
+    .eq("order_id", id)
     .single();
 
   if (statusError) {
@@ -61,7 +61,7 @@ export async function DELETE(
   const { data: deleteData, error: deleteError } = await supabase
     .from("orders")
     .update({ status: 0 })
-    .eq("user_id", id)
+    .eq("order_id", id)
     .single();
 
   if (deleteError) {
